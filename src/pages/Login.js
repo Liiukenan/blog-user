@@ -1,17 +1,49 @@
 import React, { useState } from "react";
 import "antd/dist/antd.css";
 import "../static/css/Login.css";
-import { Card, Input, Button, Spin } from "antd";
+import { Card, Input, Button, Spin,message } from "antd";
 import { UserOutlined,KeyOutlined} from "@ant-design/icons";
+import servicePath from "../api/servicePath"
+import axios from "axios"
 function Login() {
   const [userName, setUserName] = useState(" ");
   const [password, setPassword] = useState(" ");
   const [isLoading, setIsLoading] = useState(false);
-  const checkLogin = () => {
-       setIsLoading(true)
-       setTimeout(()=>{
-            setIsLoading(false)
-        },1000)
+  const checkLogin = (props) => {
+      
+       if(!userName){
+         message.error('请输入正确的用户名')
+         return
+       }
+       if(!password){
+         message.error('请输入正确的密码')
+         return
+       }
+       let dataUser={
+         userName:userName,
+         password:password
+       }
+       axios({
+         method:'post',
+         url:servicePath.checkLogin,
+         data:dataUser,
+         withCredentials: true
+       }).then(
+         res=>{
+            setIsLoading(true)
+            if(res.data.data==='登录成功'){
+              localStorage.setItem('openId',res.data.openId)
+              props.history.push('/index')
+            }else{
+              message.error('密码错误')
+            }
+         }
+       )
+
+
+      //  setTimeout(()=>{
+      //       setIsLoading(false)
+      //   },1000)
   };
   return (
     <div className="login-div">
