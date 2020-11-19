@@ -9,7 +9,7 @@ class MainController extends Controller {
   }
   async checkLogin() {
     let userName = this.ctx.request.body.userName
-    let password = this.ctx.request.password
+    let password = this.ctx.request.body.password
     const sql=`SELECT userName FROM user WHERE userName = "${userName}" AND password="${password}"`;
     const  res=await this.app.mysql.query(sql)
     if (res.length>0){
@@ -21,6 +21,12 @@ class MainController extends Controller {
         }
     }else {
         this.ctx.body={data:'登录失败'}
+    }
+  }
+  async getTypeInfo(){
+    const resType=await this.app.mysql.select('type')
+    this.ctx.body={
+      data:resType
     }
   }
 }

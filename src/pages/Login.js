@@ -5,12 +5,11 @@ import { Card, Input, Button, Spin,message } from "antd";
 import { UserOutlined,KeyOutlined} from "@ant-design/icons";
 import servicePath from "../api/servicePath"
 import axios from "axios"
-function Login() {
+function Login(props) {
   const [userName, setUserName] = useState(" ");
   const [password, setPassword] = useState(" ");
   const [isLoading, setIsLoading] = useState(false);
-  const checkLogin = (props) => {
-      
+  const checkLogin = () => {
        if(!userName){
          message.error('请输入正确的用户名')
          return
@@ -19,6 +18,8 @@ function Login() {
          message.error('请输入正确的密码')
          return
        }
+
+       setIsLoading(true)
        let dataUser={
          userName:userName,
          password:password
@@ -30,13 +31,14 @@ function Login() {
          withCredentials: true
        }).then(
          res=>{
-            setIsLoading(true)
+            setIsLoading(false)
             if(res.data.data==='登录成功'){
               localStorage.setItem('openId',res.data.openId)
               props.history.push('/index')
             }else{
               message.error('密码错误')
             }
+            
          }
        )
 
