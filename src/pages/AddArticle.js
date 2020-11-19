@@ -16,7 +16,7 @@ function AddArticle(props) {
   const [showDate, setShowDate] = useState() //发布日期
   const [updateDate, setUpdateDate] = useState() //修改日志的日期
   const [typeInfo, setTypeInfo] = useState([]) // 文章类别信息
-  const [selectedType, setSelectType] = useState(1) //选择的文章类别
+  const [selectedType, setSelectType] = useState('请选择类型') //选择的文章类别
   marked.setOptions({
     renderer: marked.Renderer(),
     gfm: true,
@@ -44,10 +44,12 @@ function AddArticle(props) {
       withCredentials:true
     }).then(
       result => {
+        console.log(result.data.data)
         if(result.data.data==="未登录"){
           localStorage.removeItem('openId')
           props.history.push('/')
         }else {
+          console.log(result.data.data)
           setTypeInfo(result.data.data)
         }
       }
@@ -55,7 +57,7 @@ function AddArticle(props) {
   }
   useEffect(() => {
     getTypeInfo();
-  }, []);
+  },[]);
   return (
     <div className="addArticle">
       <Row gutter={5}>
@@ -66,8 +68,14 @@ function AddArticle(props) {
             </Col>
             <Col span={4}>
               &nbsp;
-              <Select defaultValue="Sign Up" size="large">
-                <Option value="Sign Up">视频教程</Option>
+              <Select defaultValue={selectedType} size="large">
+               {
+                 typeInfo.map((item,index)=>{
+                   return(
+                     <Option value={item.id} key={index}>{item.typeName}</Option>
+                   )
+                 })
+               }
               </Select>
             </Col>
           </Row>
