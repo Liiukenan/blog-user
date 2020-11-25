@@ -1,9 +1,10 @@
+/* eslint-disable react/jsx-pascal-case */
+
 import React, { useState } from 'react'
 import { List, Row, Col, Modal, message, Button } from 'antd'
 import axios from 'axios'
 import servicePath from '../api/servicePath'
 const { confirm } = Modal
-
 function ArticleList() {
   const [list, setList] = useState([])
   return (
@@ -12,7 +13,7 @@ function ArticleList() {
         header={
           <Row className="list-div">
             <Col span={8}>
-              <b>标题</b>
+              <b>标题</b>dfafasf
             </Col>
             <Col span={4}>
               <b>类别</b>
@@ -31,11 +32,8 @@ function ArticleList() {
         bordered
         dataSource={list}
         renderItem={(item) => {
-           
-           <List.item>
-            <Col span={8}>
-              
-            </Col>
+          <List.item>
+            <Col span={8}></Col>
             <Col span={4}>
               <b>类别</b>
             </Col>
@@ -54,4 +52,4 @@ function ArticleList() {
     </div>
   )
 }
-export default ArticleListsfads
+export default ArticleList
