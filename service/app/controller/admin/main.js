@@ -29,6 +29,28 @@ class MainController extends Controller {
       data:resType
     }
   }
+  async addArticle() {
+    let tmpArticle=this.ctx.request.body
+    const result=await this.app.mysql.insert('article',tmpArticle)
+    const insertSuccess=result.affectedRows===1
+    const insertId=result.insertId
+    console.log(result)
+    this.ctx.body={
+      isSuccess:insertSuccess,
+      insertId:insertId
+    }
+  }
+  async updateArticle() {
+    let tmpArticle=this.ctx.request.body
+    const result=await this.app.mysql.update('article',tmpArticle)
+    console.log(123432423)
+    // 有几行发生了改变
+    const updateSuccess=result.affectedRows===1
+    this.ctx.body={
+      isSuccess: updateSuccess
+    }
+
+  }
 }
 
 module.exports = MainController
