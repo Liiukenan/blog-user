@@ -1,5 +1,3 @@
-/* eslint-disable react/jsx-pascal-case */
-
 import React, { useState } from 'react'
 import { List, Row, Col, Modal, message, Button } from 'antd'
 import axios from 'axios'
@@ -31,11 +29,11 @@ function ArticleList() {
         }
         bordered
         dataSource={list}
-        renderItem={(item) => {
+        renderItem={( item ) => {
           <List.item>
             <Col span={8}></Col>
             <Col span={4}>
-              <b>类别</b>
+              <b>{item}</b>
             </Col>
             <Col span={4}>
               <b>发布时间</b>

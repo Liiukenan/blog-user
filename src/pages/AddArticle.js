@@ -1,9 +1,9 @@
-import React, { useState,useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import marked from 'marked'
 import '../static/css/AddArticle.css'
-import { Row, Col, Input, Select, Button, DatePicker,message } from 'antd'
+import { Row, Col, Input, Select, Button, DatePicker, message } from 'antd'
 import axios from 'axios'
-import servicePath from "../api/servicePath.js"
+import servicePath from '../api/servicePath.js'
 const { Option } = Select
 const { TextArea } = Input
 function AddArticle(props) {
@@ -37,90 +37,85 @@ function AddArticle(props) {
     let html = marked(e.target.value)
     setIntroducehtml(html)
   }
-  const getTypeInfo=()=>{
+  const getTypeInfo = () => {
     axios({
-      method:'get',
-      url:servicePath.getTypeInfo,
-      withCredentials:true
-    }).then(
-      result => {
-        if(result.data.data==="未登录"){
-          localStorage.removeItem('openId')
-          props.history.push('/')
-        }else {
-          setTypeInfo(result.data.data)
-        }
+      method: 'get',
+      url: servicePath.getTypeInfo,
+      withCredentials: true
+    }).then((result) => {
+      if (result.data.data === '未登录') {
+        localStorage.removeItem('openId')
+
+        props.history.push('/')
+      } else {
+        setTypeInfo(result.data.data)
       }
-    )
+    })
   }
   useEffect(() => {
-    getTypeInfo();
-  },[]);
-  const selectTypeHandler=(value)=>{
+    getTypeInfo()
+  }, [])
+  const selectTypeHandler = (value) => {
     setSelectType(value)
   }
-  const saveArticle=()=>{
-    if(selectedType==="请选择类型"){
+  const saveArticle = () => {
+    if (selectedType === '请选择类型') {
       message.error('必须选择文章类型')
       return false
     }
-    if(!articleTitle){
+    if (!articleTitle) {
       message.error('文章名称不能为空')
       return false
     }
-    if(!articleContent){
+    if (!articleContent) {
       message.error('内容不能为空')
       return false
     }
-    if(!introducemd){
+    if (!introducemd) {
       message.error('简介不能为空')
       return false
     }
-    if(!showDate){
+    if (!showDate) {
       message.error('日期不能为空')
       return false
     }
-    let dataProps={
-      type_id:selectedType,
-      title:articleTitle,
-      article_content:articleContent,
-      introduce:introducemd,
-      add_time:new Date(showDate).getTime()/1000,
-      type_name:typeInfo[selectedType-1].typeName
+    let dataProps = {
+      type_id: selectedType,
+      title: articleTitle,
+      article_content: articleContent,
+      introduce: introducemd,
+      add_time: new Date(showDate).getTime() / 1000,
+      type_name: typeInfo[selectedType - 1].typeName
     }
-    if(articleId===0){
-      dataProps.view_count=0;
+    if (articleId === 0) {
+      dataProps.view_count = 0
       axios({
-        method:'post',
-        url:servicePath.addArticle,
-        data:dataProps,
-        withCredentials:true
-      }).then(
-        res=>{
-          setArticleId(res.data.insertId)
-          if(res.data.isSuccess){
-            message.success('文章添加成功')
-          }else {
-            message.error('文章添加失败')
-          }
+        method: 'post',
+        url: servicePath.addArticle,
+        data: dataProps,
+        withCredentials: true
+      }).then((res) => {
+        setArticleId(res.data.insertId)
+        if (res.data.isSuccess) {
+          message.success('文章添加成功')
+        } else {
+          message.error('文章添加失败')
         }
-      )
-    }else {
-      dataProps.id=articleId;
+      })
+    } else {
+      dataProps.id = articleId
       axios({
-        method:'post',
-        url:servicePath.updateArticle,
-        data:dataProps,
-        withCredentials:true
-      }).then(
-        res => {
-          if (res.data.isSuccess) {
-            message.success('文章修改成功')
-          }else {
-            message.error('文章修改失败')
-          }
+        method: 'post',
+        url: servicePath.updateArticle,
+        data: dataProps,
+        withCredentials: true
+      }).then((res) => {
+        if (res.data.isSuccess) {
+          message.success('文章修改成功')
+        } else {
+          message.error('文章修改失败')
         }
-      )
+      })
     }
   }
   return (
@@ -129,18 +124,29 @@ function AddArticle(props) {
         <Col span={18}>
           <Row gutter={10}>
             <Col span={20}>
-              <Input value={articleTitle} placeholder="博客标题" size="large" onChange={e=>{setArticleTitle(e.target.value)}}/>
+              <Input
+                onChange={(e) => {
+                  setArticleTitle(e.target.value)
+                }}
+                placeholder="博客标题"
+                size="large"
+                value={articleTitle}
+              />
             </Col>
             <Col span={4}>
               &nbsp;
-              <Select defaultValue={selectedType} size="large" onChange={selectTypeHandler}>
-               {
-                 typeInfo.map((item,index)=>{
-                   return(
-                     <Option value={item.id} key={index}>{item.typeName}</Option>
-                   )
-                 })
-               }
+              <Select
+                defaultValue={selectedType}
+                onChange={selectTypeHandler}
+                size="large"
+              >
+                {typeInfo.map((item, index) => {
+                  return (
+                    <Option value={item.id} key={index}>
+                      {item.typeName}
+                    </Option>
+                  )
+                })}
               </Select>
             </Col>
           </Row>
@@ -190,7 +196,13 @@ function AddArticle(props) {
 
             <Col span={18}>
               <div className="date-select">
-                <DatePicker placeholder="发布日期" size="large" onChange={(date,dateString)=>{setShowDate(dateString)}}/>
+                <DatePicker
+                  placeholder="发布日期"
+                  size="large"
+                  onChange={(date, dateString) => {
+                    setShowDate(dateString)
+                  }}
+                />
               </div>
             </Col>
           </Row>
