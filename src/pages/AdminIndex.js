@@ -4,18 +4,26 @@ import {
   DesktopOutlined,
   PieChartOutlined,
   FileOutlined,
-  TeamOutlined,
+  // TeamOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 import {Route} from 'react-router-dom'
 import AddArticle from './AddArticle'
+import ArticleList from './ArticleList'
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
-function AdminIndex() {
+function AdminIndex(props) {
   const [collapsed, setCollapsed] = useState(false);
   const onCollapse = collapsed => {
     setCollapsed(collapsed)
   };
+  const handleClickArticle=e=>{
+    if(e.key==='addArticle'){
+      props.history.push('/index/add')
+    }else{
+      props.history.push('/index/list')
+    }
+  }
   return (
     <div>
       <Layout style={{ minHeight: "100vh" }}>
@@ -28,9 +36,9 @@ function AdminIndex() {
             <Menu.Item key="2" icon={<DesktopOutlined />}>
                添加文章
             </Menu.Item>
-            <SubMenu key="sub1" icon={<UserOutlined />} title="文章管理">
-              <Menu.Item key="3">添加文章</Menu.Item>
-              <Menu.Item key="4">文章列表</Menu.Item>
+            <SubMenu key="sub1" icon={<UserOutlined />} title="文章管理" onClick={handleClickArticle}>
+              <Menu.Item key="addArticle">添加文章</Menu.Item>
+              <Menu.Item key="articleList">文章列表</Menu.Item>
             </SubMenu>
             <Menu.Item key="9" icon={<FileOutlined />}>
               留言管理
@@ -50,6 +58,8 @@ function AdminIndex() {
             >
                 <div>
                     <Route path="/index" exact   component={AddArticle} />
+                    <Route path="/index/add" exact   component={AddArticle} />
+                    <Route path="/index/list" exact   component={ArticleList} />
                 </div>
              
             </div>

@@ -11,7 +11,7 @@ function ArticleList() {
         header={
           <Row className="list-div">
             <Col span={8}>
-              <b>标题</b>dfafasf
+              <b>标题</b>
             </Col>
             <Col span={4}>
               <b>类别</b>
@@ -33,16 +33,20 @@ function ArticleList() {
           <List.item>
             <Col span={8}></Col>
             <Col span={4}>
-              <b>{item}</b>
+            {item.title}
             </Col>
             <Col span={4}>
-              <b>发布时间</b>
+              {item.typeName}
             </Col>
             <Col span={4}>
-              <b>浏览量</b>
+              {item.addTime}
             </Col>
             <Col span={4}>
-              <b>操作</b>
+              {item.view_count}
+            </Col>
+            <Col span={4}>
+              <Button type="primary">修改</Button>
+              <Button>删除</Button>
             </Col>
           </List.item>
         }}
