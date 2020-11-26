@@ -54,15 +54,15 @@ function AddArticle(props) {
   }
   useEffect(() => {
     getTypeInfo()
+    if(props.match.params.id){
+      getArticleById(props.match.params.id)
+    }
+    
   }, [])
   const selectTypeHandler = (value) => {
     setSelectType(value)
   }
   const saveArticle = () => {
-    if (selectedType === '请选择类型') {
-      message.error('必须选择文章类型')
-      return false
-    }
     if (!articleTitle) {
       message.error('文章名称不能为空')
       return false
@@ -87,6 +87,7 @@ function AddArticle(props) {
       add_time: new Date(showDate).getTime() / 1000,
       type_name: typeInfo[selectedType - 1].typeName
     }
+    
     if (articleId === 0) {
       dataProps.view_count = 0
       axios({
@@ -118,6 +119,24 @@ function AddArticle(props) {
       })
     }
   }
+  const getArticleById=(id)=>{
+    axios(servicePath.getArticleById+id,{
+      withCredentials:true
+    }).then((res)=>{
+        console.log(res)
+        let articleInfo=res.data[0]
+        setArticleTitle(articleInfo.title)
+        setArticleContent(articleInfo.articleContent)
+        let html=marked(articleInfo.articleContent)
+        setMarkdownContent(html)
+        setIntroducemd(articleInfo.introduce)
+        let tmInt=marked(articleInfo.introduce)
+        setIntroducehtml(tmInt)
+        setShowDate(articleInfo.addTime)
+        setSelectType(articleInfo.typeName)
+    })
+  }
+  
   return (
     <div className="addArticle">
       <Row gutter={5}>
@@ -136,7 +155,7 @@ function AddArticle(props) {
             <Col span={4}>
               &nbsp;
               <Select
-                defaultValue={selectedType}
+                value={selectedType}
                 onChange={selectTypeHandler}
                 size="large"
               >

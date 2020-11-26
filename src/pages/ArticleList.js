@@ -3,8 +3,9 @@ import { List, Row, Col, Modal, message, Button } from 'antd'
 import axios from 'axios'
 import '../static/css/ArticleList.css'
 import servicePath from '../api/servicePath'
+import { OmitProps } from 'antd/lib/transfer/ListBody'
 const { confirm } = Modal
-function ArticleList() {
+function ArticleList(props) {
   const [list, setList] = useState([])
   const getList=()=>{
     axios({
@@ -41,13 +42,20 @@ function ArticleList() {
       }
     })
   }
+  //修改文章跳转方法
+  const updateArticle=(id,checked)=>{
+    props.history.push('/index/add/'+id)
+  }
   return (
     <div>
        <List
        header={
           <Row className="list-div">
-            <Col span={8}>
+            <Col span={4}>
               <b>标题</b>
+            </Col>
+            <Col span={4}>
+              <b>id</b>
             </Col>
             <Col span={4}>
               <b>类别</b>
@@ -68,8 +76,11 @@ function ArticleList() {
         renderItem={item => (
           <List.Item>
           
-            <Col span={8}>
+            <Col span={4}>
             {item.title}
+            </Col>
+            <Col span={4}>
+            {item.id}
             </Col>
             <Col span={4}>
               {item.typeName}
@@ -81,7 +92,7 @@ function ArticleList() {
               {item.viewCount}
             </Col>
             <Col span={4}>
-              <Button type="primary">修改</Button>&nbsp;
+              <Button type="primary" onClick={()=>{updateArticle(item.id)}}>修改</Button>&nbsp;
               <Button onClick={()=>{delArticle(item.id)}}>删除</Button>
             </Col>
           </List.Item>
