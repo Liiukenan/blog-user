@@ -25,8 +25,12 @@ function ArticleList() {
       title:'确定要删除这篇博客吗？',
       content:'如果你点击ok，则文章永远被删除，无法恢复',
       onOk: () => {
-        axios(servicePath.delArticle,{withCredentials:true}).then(
-          res => {
+        axios({
+          method:'POST',
+          url:servicePath.delArticle+id,
+          withCredentials:true
+        }).then(
+          () => {
             message.success('删除成功')
             getList();
           }
@@ -77,8 +81,8 @@ function ArticleList() {
               {item.viewCount}
             </Col>
             <Col span={4}>
-              <Button type="primary">修改</Button>
-              <Button onClick={delArticle}>删除</Button>
+              <Button type="primary">修改</Button>&nbsp;
+              <Button onClick={()=>{delArticle(item.id)}}>删除</Button>
             </Col>
           </List.Item>
         )}
