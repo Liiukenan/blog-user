@@ -51,6 +51,27 @@ class MainController extends Controller {
     }
 
   }
+  async getArticleList() {
+    let sql = `SELECT id AS id, 
+             title AS title, 
+             introduce AS introduce,
+             FROM_UNIXTIME(add_time,'%Y-%m-%d %H:%i:%s') AS addTime, 
+             type_name AS typeName,
+             article_content AS articleContent, 
+             view_count AS viewCount FROM article
+             ORDER BY id DESC
+             `;
+    const resList=await this.app.mysql.query(sql)
+    this.ctx.body={
+      list:resList
+    }
+    
+  }
+  async delArticle() {
+    let id=this.ctx.params.id;
+    const res=await this.app.mysql.delece('article',{id:id});
+    this.ctx.body={data:res}
+  }
 }
 
 module.exports = MainController

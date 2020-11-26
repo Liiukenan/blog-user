@@ -3,6 +3,9 @@ let servicePath = {
   checkLogin: ipUrl + '/checkLogin', //首页接口
   getTypeInfo: ipUrl + '/getTypeInfo', //获得文章类别信息
   addArticle: ipUrl + '/addArticle', //添加文章数据
-  updateArticle: ipUrl + '/updateArticle' //更新文章数据
+  updateArticle: ipUrl + '/updateArticle',//更新文章数据
+  getArticleList: ipUrl + '/getArticleList', //获取文章列表
+  delArticle: ipUrl + '/delArticle' //获取文章列表
+  
 }
 export default servicePath
