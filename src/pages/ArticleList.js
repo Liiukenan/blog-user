@@ -7,37 +7,33 @@ import { OmitProps } from 'antd/lib/transfer/ListBody'
 const { confirm } = Modal
 function ArticleList(props) {
   const [list, setList] = useState([])
-  const getList=()=>{
+  const getList = () => {
     axios({
-      method:'GET',
-      url:servicePath.getArticleList,
-      withCredentials:true
-    }).then(
-      res=>{
-        setList(res.data.list)
-      }
-    )
+      method: 'GET',
+      url: servicePath.getArticleList,
+      withCredentials: true
+    }).then((res) => {
+      setList(res.data.list)
+    })
   }
   useEffect(() => {
-    getList();
-  }, []);
-  const delArticle=(id)=>{
+    getList()
+  }, [])
+  const delArticle = (id) => {
     confirm({
-      title:'确定要删除这篇博客吗？',
-      content:'如果你点击ok，则文章永远被删除，无法恢复',
+      title: '确定要删除这篇博客吗？',
+      content: '如果你点击ok，则文章永远被删除，无法恢复',
       onOk: () => {
         axios({
-          method:'POST',
-          url:servicePath.delArticle+id,
-          withCredentials:true
-        }).then(
-          () => {
-            message.success('删除成功')
-            getList();
-          }
-        )
+          method: 'POST',
+          url: servicePath.delArticle + id,
+          withCredentials: true
+        }).then(() => {
+          message.success('删除成功')
+          getList()
+        })
       },
-      onCancel(){
+      onCancel() {
         message.success('文章没有任何变化')
       }
     })
@@ -48,8 +44,8 @@ function ArticleList(props) {
   }
   return (
     <div>
-       <List
-       header={
+      <List
+        header={
           <Row className="list-div">
             <Col span={4}>
               <b>标题</b>
@@ -73,8 +69,9 @@ function ArticleList(props) {
         }
         bordered
         dataSource={list}
-        renderItem={item => (
+        renderItem={(item) => (
           <List.Item>
+<<<<<<< Updated upstream
           
             <Col span={4}>
             {item.title}
@@ -94,6 +91,21 @@ function ArticleList(props) {
             <Col span={4}>
               <Button type="primary" onClick={()=>{updateArticle(item.id)}}>修改</Button>&nbsp;
               <Button onClick={()=>{delArticle(item.id)}}>删除</Button>
+=======
+            <Col span={8}>{item.title}</Col>
+            <Col span={4}>{item.typeName}</Col>
+            <Col span={4}>{item.addTime}</Col>
+            <Col span={4}>{item.viewCount}</Col>
+            <Col span={4}>
+              <Button type="primary">修改</Button>&nbsp;
+              <Button
+                onClick={() => {
+                  delArticle(item.id)
+                }}
+              >
+                删除
+              </Button>
+>>>>>>> Stashed changes
             </Col>
           </List.Item>
         )}
@@ -102,34 +114,3 @@ function ArticleList(props) {
   )
 }
 export default ArticleList
-
-
-
-{/* <List
-        
-        bordered
-        dataSource={list}
-        renderItem={( item ) => {
-          <List.Item>
-            <Col span={8}>
-              dsafsa
-            </Col>
-            <Col span={4}>
-            {item.title}
-            </Col>
-            <Col span={4}>
-              {item.typeName}
-            </Col>
-            <Col span={4}>
-              {item.addTime}
-            </Col>
-            <Col span={4}>
-              {item.view_count}
-            </Col>
-            <Col span={4}>
-              <Button type="primary">修改</Button>
-              <Button>删除</Button>
-            </Col>
-          </List.Item>
-        }}
-      ></List> */}
