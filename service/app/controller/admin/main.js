@@ -34,7 +34,6 @@ class MainController extends Controller {
     const result=await this.app.mysql.insert('article',tmpArticle)
     const insertSuccess=result.affectedRows===1
     const insertId=result.insertId
-    console.log(result)
     this.ctx.body={
       isSuccess:insertSuccess,
       insertId:insertId
@@ -43,7 +42,6 @@ class MainController extends Controller {
   async updateArticle() {
     let tmpArticle=this.ctx.request.body
     const result=await this.app.mysql.update('article',tmpArticle)
-    console.log(123432423)
     // 有几行发生了改变
     const updateSuccess=result.affectedRows===1
     this.ctx.body={
@@ -69,7 +67,6 @@ class MainController extends Controller {
   }
   async delArticle() {
     let id=this.ctx.params.id;
-    console.log(id);
     const res=await this.app.mysql.delete('article',{id:id});
     this.ctx.body={data:res}
   }

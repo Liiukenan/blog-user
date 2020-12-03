@@ -6,6 +6,7 @@ import servicePath from '../api/servicePath'
 import { OmitProps } from 'antd/lib/transfer/ListBody'
 const { confirm } = Modal
 function ArticleList(props) {
+  
   const [list, setList] = useState([])
   const getList = () => {
     axios({
@@ -13,6 +14,7 @@ function ArticleList(props) {
       url: servicePath.getArticleList,
       withCredentials: true
     }).then((res) => {
+      
       setList(res.data.list)
     })
   }
@@ -71,7 +73,6 @@ function ArticleList(props) {
         dataSource={list}
         renderItem={(item) => (
           <List.Item>
-<<<<<<< Updated upstream
           
             <Col span={4}>
             {item.title}
@@ -91,21 +92,6 @@ function ArticleList(props) {
             <Col span={4}>
               <Button type="primary" onClick={()=>{updateArticle(item.id)}}>修改</Button>&nbsp;
               <Button onClick={()=>{delArticle(item.id)}}>删除</Button>
-=======
-            <Col span={8}>{item.title}</Col>
-            <Col span={4}>{item.typeName}</Col>
-            <Col span={4}>{item.addTime}</Col>
-            <Col span={4}>{item.viewCount}</Col>
-            <Col span={4}>
-              <Button type="primary">修改</Button>&nbsp;
-              <Button
-                onClick={() => {
-                  delArticle(item.id)
-                }}
-              >
-                删除
-              </Button>
->>>>>>> Stashed changes
             </Col>
           </List.Item>
         )}
