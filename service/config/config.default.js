@@ -43,14 +43,22 @@ module.exports = (appInfo) => {
   };
   
 　 config.security = {
-　　　　csrf: {enable: false},
+　　　　csrf: {enable: false,ignoreJSON:true},
 　　　　domainWhiteList: [ '*' ]
 　　};
+
   config.cors = {
     origin: 'http://127.0.0.1:3001',
-    credentials: true,  //允许Cook可以跨域
+    credentials: true,  //允许Cookie可以跨域
     allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH,OPTIONS'
-    };
+  };
+  config.cluster = { 
+    listen:{
+      path:'',
+      port:7002,
+      hostname:'127.0.0.1'
+    }
+  };
 
   return {
     ...config,

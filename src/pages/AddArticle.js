@@ -17,7 +17,7 @@ function AddArticle(props) {
   const [showDate, setShowDate] = useState(new Date()) //发布日期
   const [typeInfo, setTypeInfo] = useState([]) // 文章类别信息
   const [selectedType, setSelectType] = useState('视频教程') //选择的文章类别
-  const [format,setFormat]=useState('YYYY-MM-DD HH:mm:ss')
+  const [format]=useState('YYYY-MM-DD HH:mm:ss')[0]
   marked.setOptions({
     renderer: marked.Renderer(),
     gfm: true,
@@ -42,7 +42,8 @@ function AddArticle(props) {
     axios({
       method: 'get',
       url: servicePath.getTypeInfo,
-      withCredentials: true
+      withCredentials: true,
+      
     }).then((result) => {
       if (result.data.data === '未登录') {
         localStorage.removeItem('openId')

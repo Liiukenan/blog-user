@@ -28,7 +28,7 @@ function Login(props) {
          method:'post',
          url:servicePath.checkLogin,
          data:dataUser,
-         withCredentials: true
+         withCredentials: true,
        }).then(
          res=>{
             setIsLoading(false)
