@@ -3,7 +3,6 @@ import marked from 'marked'
 import '../static/css/AddArticle.css'
 import { Row, Col, Input, Select, Button, DatePicker, message } from 'antd'
 import axios from 'axios'
-import moment from 'moment'
 import servicePath from '../api/servicePath.js'
 const { Option } = Select
 const { TextArea } = Input
@@ -16,8 +15,7 @@ function AddArticle(props) {
   const [introducehtml, setIntroducehtml] = useState('等待编辑') //简介的html内容
   const [showDate, setShowDate] = useState(new Date()) //发布日期
   const [typeInfo, setTypeInfo] = useState([]) // 文章类别信息
-  const [selectedType, setSelectType] = useState('视频教程') //选择的文章类别
-  const [format]=useState('YYYY-MM-DD HH:mm:ss')[0]
+  const [selectedType, setSelectType] = useState('请选择类别') //选择的文章类别
   marked.setOptions({
     renderer: marked.Renderer(),
     gfm: true,
@@ -58,7 +56,6 @@ function AddArticle(props) {
     if(props.match.params.id){
       getArticleById(props.match.params.id)
     }
-    
   }, [])
   const selectTypeHandler = (value) => {
     setSelectType(value)
@@ -228,16 +225,15 @@ function AddArticle(props) {
 
             <Col span={18}>
               <div className="date-select">
-                <DatePicker
+                
+                <DatePicker 
+                  renderExtraFooter={() => 'extra footer'} 
+                  showTime 
                   placeholder="发布日期"
                   size="large"
-                  value={moment(showDate,format)}
-                  format={format}
-                  showTime={{ defaultValue: moment('00:00:00', 'HH:mm:ss') }}
                   onChange={(date, dateString) => {
-                    setShowDate(dateString)
-                  }}
-                />
+                    setShowDate( dateString )
+                  }}/>
               </div>
             </Col>
           </Row>

@@ -1,4 +1,9 @@
-let ipUrl = 'http://152.136.19.118:7001/admin/' //接口
+let ipUrl = '' //接口
+if(process.env.CMLINT_ENV==="development"){
+  ipUrl='http://127.0.0.1:7002/admin/'
+}else {
+  ipUrl='https://adminapi.goldaner.com/admin/';
+}
 let servicePath = {
   checkLogin: ipUrl + 'checkLogin', //首页接口
   getTypeInfo: ipUrl + 'getTypeInfo', //获得文章类别信息

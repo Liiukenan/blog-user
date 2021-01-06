@@ -5,7 +5,10 @@ module.exports = {
     ssh: {
       host: '152.136.19.118',
       username: 'root',
-      password: 'Aini=1314',
+      // password: 'Aini=1314',
+      privateKey: require("fs").readFileSync(
+        "/Users/liukenan/Documents/blog.pem"
+      ) //mac用户举例
     },
     buildCommand: 'build',
     localPath: 'build',

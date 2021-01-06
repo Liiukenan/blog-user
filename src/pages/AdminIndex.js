@@ -62,7 +62,6 @@ function AdminIndex(props) {
                     <Route path="/index/list" exact   component={ArticleList} />
                     <Route path="/index/add/:id" exact   component={AddArticle} />
                 </div>
-             
             </div>
           </Content>
           <Footer style={{ textAlign: "center" }}>

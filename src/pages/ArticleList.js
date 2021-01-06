@@ -3,7 +3,6 @@ import { List, Row, Col, Modal, message, Button } from 'antd'
 import axios from 'axios'
 import '../static/css/ArticleList.css'
 import servicePath from '../api/servicePath'
-import { OmitProps } from 'antd/lib/transfer/ListBody'
 const { confirm } = Modal
 function ArticleList(props) {
   
@@ -41,7 +40,7 @@ function ArticleList(props) {
     })
   }
   //修改文章跳转方法
-  const updateArticle=(id,checked)=>{
+  const updateArticle=(id)=>{
     props.history.push('/index/add/'+id)
   }
   return (

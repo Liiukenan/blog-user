@@ -196,6 +196,7 @@ module.exports = {
     ],
     // jsx 文件必须 import React
     'react/jsx-uses-react': 1,
+    "react/jsx-closing-bracket-location":0,
     // 定义了的 jsx element 必须使用
     'react/jsx-uses-vars': 1,
     // @fixable 多行的 jsx 必须有括号包起来
@@ -203,6 +204,7 @@ module.exports = {
     'react/jsx-wrap-multilines': 'off',
     'no-dupe-keys': 0,
     'react/jsx-pascal-case': 0,
+    'react/jsx-tag-spacing':0,
     'no-undef': 0
   }
 }
