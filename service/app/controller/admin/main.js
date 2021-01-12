@@ -1,12 +1,47 @@
 'use strict'
 const Controller = require('egg').Controller
+const fs = require('fs');
+const path = require('path');
+const mineType = require('mime-types');
+const sendToWormhole = require('stream-wormhole');
+const awaitWriteStream = require('await-stream-ready').write;
 class MainController extends Controller {
   async index() {
-    //  let result = await this.app.mysql.get("blog_content", {});
-    this.ctx.body = {
-      name: 'kenan'
-    }
+    let result = await this.app.mysql.get("blog_content", {});
+    this.ctx.body = result;
   }
+  async upload() {
+    const { ctx } = this;
+    const stream = await ctx.getFileStream();
+    const name = Date.now() + '' + path.extname(stream.filename).toLocaleLowerCase(); // 获取文件的尾缀名（扩展名）
+    console.log('name:>>>>>>>', name);
+    // console.log('filename:>>>>>>>', stream.filename);
+    
+    const target = path.resolve(__dirname, '../../public/images'); // 保存的文件夹路径
+
+    // 判断存储的文件夹是否存在，不存在则创建
+    if (!fs.existsSync(target)) {
+      fs.mkdirSync(target);
+    }
+
+    const targetFilename = path.join(target, name); // 写入的文件名称, 目标文件名
+    // console.log('filename:>>>>>>>', targetFilename); 
+    const writeStream = fs.createWriteStream(targetFilename);
+    try {
+      await awaitWriteStream(stream.pipe(writeStream));
+    } catch (e) {
+      await sendToWormhole(stream);
+      // console.log(e);
+      throw e;
+    }
+    
+    ctx.body = {
+      code: 200,
+      message: '上传成功',
+      data: "http://127.0.0.1:7002/public/images/"+name,
+    };
+  }
+
   async checkLogin() {
     let userName = this.ctx.request.body.userName
     let password = this.ctx.request.body.password

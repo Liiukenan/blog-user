@@ -46,7 +46,11 @@ module.exports = (appInfo) => {
 　　　　csrf: {enable: false,ignoreJSON:true},
 　　　　domainWhiteList: [ '*' ]
 　　};
-
+  // 配置文件
+  config.multipart = {
+    fileSize: '50mb',
+    mode: 'stream', // 这里要配置成stream，详情可以参考官网。俩个模式。
+  };
   config.cors = {
     origin: 'http://127.0.0.1:3001',
     credentials: true,  //允许Cookie可以跨域

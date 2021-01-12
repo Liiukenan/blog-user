@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import marked from 'marked'
 import '../static/css/AddArticle.css'
-import { Row, Col, Input, Select, Button, DatePicker, message } from 'antd'
+import { Row, Col, Input, Select, Button, DatePicker, message,Upload } from 'antd'
 import axios from 'axios'
 import servicePath from '../api/servicePath.js'
+import { UploadOutlined } from '@ant-design/icons';
 const { Option } = Select
 const { TextArea } = Input
 function AddArticle(props) {
@@ -36,6 +37,30 @@ function AddArticle(props) {
     let html = marked(e.target.value)
     setIntroducehtml(html)
   }
+  const propsFiles = {
+    name: 'file',
+    action: servicePath.upload,
+    showUploadList:false,
+    headers: {
+      authorization: 'authorization-text',
+    },
+    
+    onChange(info) {
+      if (info.file.status !== 'uploading') {
+        // console.log(info.file, info.fileList);
+        // message.success(`${info.file.name} 上传中`);
+      }
+      if (info.file.status === 'done') {
+        let pic=`<img src="${info.file.response.data}">`;
+        setArticleContent(articleContent+pic);
+        let html = marked(articleContent+pic);
+        setMarkdownContent(html)
+        message.success(`${info.file.name} 上传成功`);
+      } else if (info.file.status === 'error') {
+        message.error(`${info.file.name} 上传失败`);
+      }
+    },
+  };
   const getTypeInfo = () => {
     axios({
       method: 'get',
@@ -201,7 +226,9 @@ function AddArticle(props) {
         <Col span={6}>
           <Row>
             <Col span={24}>
-              <Button size="large">暂存文章</Button>&nbsp;
+            <Upload {...propsFiles}>
+              <Button icon={<UploadOutlined />} size="large">上传图片</Button> &nbsp;
+            </Upload>
               <Button type="primary" size="large" onClick={saveArticle}>
                 发布文章
               </Button>

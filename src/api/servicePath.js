@@ -11,7 +11,7 @@ let servicePath = {
   updateArticle: ipUrl + 'updateArticle',//更新文章数据
   getArticleList: ipUrl + 'getArticleList', //获取文章列表
   delArticle: ipUrl + 'delArticle/', //获取文章列表
-  getArticleById: ipUrl + 'getArticleById/' //根据ID获取文章详情
-  
+  getArticleById: ipUrl + 'getArticleById/', //根据ID获取文章详情
+  upload: ipUrl + 'upload' //上传文件
 }
 export default servicePath
